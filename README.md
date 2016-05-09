@@ -1,5 +1,6 @@
 # sass-mixins
 Useful sass mixins without bs
+- all demos are listed here as a collection: http://codepen.io/collection/AKwvjR/
 
 ## List of mixins included:
 
@@ -66,6 +67,11 @@ Useful sass mixins without bs
 ### rotate
 - usage: `@include rotate;` or `@include rotate(90);`
 - demo: http://codepen.io/riogrande/pen/pygpZr
+
+### opacity
+- usage `@include opacity(0.5);`
+- must have argument
+- demo: http://codepen.io/riogrande/pen/xVMyKr
 
 ## Installation
 - copy/paste to your project

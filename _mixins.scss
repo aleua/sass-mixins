@@ -1,7 +1,7 @@
 /* 
 - Name: Raw project - mixins.scss
 - Version: 1.0
-- Latest update: 13.2.2016
+- Latest update: 09.05.2016
 - Author: Mario Loncarek
 - Author web site: http://marioloncarek.com
 */
@@ -13,7 +13,7 @@ MIXINS
 /* FONT FACE
 - usage: @include font-face('hk_grotesklight', '../fonts/hk-grotesk/hkgrotesk-light-webfont');
 */
-@mixin font-face($family, $url-without-ext) {
+@mixin font-face($family, $url-without-ext, $font-weight: normal, $font-style: normal) {
   @font-face {
     font-family: '#{$family}';
     src: url('#{$url-without-ext}.eot'); /* IE9 Compat Modes */
@@ -22,8 +22,8 @@ MIXINS
     url('#{$url-without-ext}.woff') format('woff'), /* Pretty Modern Browsers */
     url('#{$url-without-ext}.ttf') format('truetype'), /* Safari, Android, iOS */
     url('#{$url-without-ext}.svg##{$family}') format('svg'); /* Legacy iOS */
-    /*font-weight: $font-weight;*/
-    /*font-style: $font-style;*/
+    font-weight: $font-weight;
+    font-style: $font-style;
   }
 }
 
@@ -33,23 +33,23 @@ MIXINS
 @include breakpoint(number or predefined point, max-width(px)/min-width(px)/or any other feature){}
 */
 @mixin breakpoint($point, $min-or-max: max-width) {
-  @if $point == "xl" {
+  @if $point == "xl" { /* 1399px */
     @media only screen and ($min-or-max: $screen-xl) {
       @content;
     }
-  } @else if $point == "lg" {
+  } @else if $point == "lg" { /* 1199px */
     @media only screen and ($min-or-max: $screen-lg) {
       @content;
     }
-  } @else if $point == "md" {
+  } @else if $point == "md" { /* 979px */
     @media only screen and ($min-or-max: $screen-md) {
       @content;
     }
-  } @else if $point == "sm" {
+  } @else if $point == "sm" { /* 767px */
     @media only screen and ($min-or-max: $screen-sm) {
       @content;
     }
-  } @else if $point == "xs" {
+  } @else if $point == "xs" { /* 400px */
     @media only screen and ($min-or-max: $screen-xs) {
       @content;
     }
@@ -127,13 +127,14 @@ MIXINS
 - usage: @include border-radius-custom; or @include border-radius-custom(5px, 5px, 0, 0);
 - second example above will give 5px border radius on top left and top right corner
 */
-@mixin border-radius-custom($topleft: 3px, $topright: 3px, $bottomleft: 3px, $bottomright: 3px) {
-  border-radius: $topleft $topright $bottomleft $bottomright;
+@mixin border-radius-custom($topleft: 3px, $topright: 3px, $bottomright: 3px, $bottomleft: 3px) {
+  border-radius: $topleft $topright $bottomright $bottomleft;
 }
 
 /* CENTER ANYTHING - with position absolute
 - usage: @include center(vertical/horizontal/both)
 - must have argument
+- important: put transform-style: preserve-3d; in case of blurry elements
 */
 @mixin center($position: "vertical") {
   position: absolute;
@@ -174,4 +175,15 @@ MIXINS
   transform: rotate(#{$degrees}deg);
   filter: progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=#{cos($degrees)}, M12=-#{sin($degrees)}, M21=#{sin($degrees)}, M22=#{cos($degrees)});
   *zoom: 1;
+}
+
+/* Opacity - cross browser
+- usage @include opacity(0.5);
+- must have argument
+*/
+@mixin opacity($opacity) {
+  opacity: $opacity;
+  $opacity-ie: $opacity * 100;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity="+$opacity-ie+")";
+  filter: alpha(opacity=$opacity-ie);
 }
